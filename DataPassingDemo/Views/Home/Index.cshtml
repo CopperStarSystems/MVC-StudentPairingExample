@@ -1,0 +1,38 @@
+﻿@model DataPassingDemo.Models.StudentPairingData
+
+@{
+    ViewBag.Title = "Student Pairing";
+}
+
+<h2>@ViewBag.Title</h2>
+@foreach (var student in Model.Students)
+{
+    @Html.Label(student)
+    <br/>
+}
+
+@if (Model.PairedStudents != null && Model.PairedStudents.Count > 0)
+{
+    <h2>Paired Students</h2>
+    foreach (var student in Model.PairedStudents)
+    {
+        @Html.Label(student)<br/>
+    }
+
+    if (!string.IsNullOrEmpty(Model.UnpairedStudent))
+    {
+        <h2>Unpaired Student:</h2>
+        var message = string.Format("Student {0} was not paired.", Model.UnpairedStudent);
+        @Html.Label(Model.UnpairedStudent)
+    }
+}
+else
+{
+    // No @ here because we're already in a Razor block
+    // opened at the beginning of the if statement.
+    using (Html.BeginForm())
+    {
+        <input type="hidden" name="PairStudents" value="true"/>
+        <button type="submit">Pair</button>
+    }
+}
